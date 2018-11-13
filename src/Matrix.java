@@ -97,6 +97,19 @@ public class Matrix{
 		return d;
 	}
 	
+	float tr(float[][] a) {
+		float d=0;
+		if (a.length==a[0].length) {
+			for (int i=0;i<a.length;i++) {
+				d +=a[i][i];
+			}
+		}
+		else {
+			System.out.println("Matrix not square");
+		}
+		return d;
+	}
+	
 	float[][] add(float[][] a, float[][] b) {
 		float [][] M = new float[a.length][a[0].length];
 		if (a.length==b.length && a[0].length==b[0].length) {
@@ -132,7 +145,12 @@ public class Matrix{
 	float[][] scale(float[][] a, float s) {
 		for(int i = 0; i<a.length; i++) {
 			for(int j = 0; j<a[0].length; j++) {
-				a[i][j] *= s;
+				if (a[i][j] == 0) {
+					a[i][j] = 0;
+				}
+				else {
+					a[i][j] *= s;
+				}
 			}
 		}
 		return a;
@@ -146,6 +164,20 @@ public class Matrix{
 			}
 		}
 		return M;
+	}
+	
+	float[]eigenvals2D(float[][]a){
+		float[]spec = new float[2];
+		if (a.length==2 && a[0].length==2) {
+			float d = (float)((double)0.5*Math.sqrt((double)(tr(a)*tr(a)-4*det2D(a))));
+			float b = (float)0.5*tr(a);
+			spec[0] = b+d;
+			spec[1] = b-d;
+		}
+		else {
+			System.out.println("Matrix not 2D");
+		}
+		return spec;
 	}
 	
 	float[][] symmetrise(float[][] a) {
@@ -170,5 +202,17 @@ public class Matrix{
 		return M;
 	}
 	
-	
+	float[] transformVector(float[][]a, float[]x) {
+		float[] y = new float[x.length];
+		if(a[0].length==x.length) {
+			for(int i=0;i<x.length;i++) {
+				y[i]=dot(a[i],x);
+			}
+		}
+		else {
+			System.out.println("Dimension mismatch");
+		}
+		return y;
+	}
+
 }
