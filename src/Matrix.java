@@ -96,4 +96,79 @@ public class Matrix{
 		}
 		return d;
 	}
+	
+	float[][] add(float[][] a, float[][] b) {
+		float [][] M = new float[a.length][a[0].length];
+		if (a.length==b.length && a[0].length==b[0].length) {
+			for(int i = 0; i<a.length; i++) {
+				for(int j = 0; j<a[0].length; j++) {
+					M[i][j]=a[i][j]+b[i][j];
+				}
+			}
+		}
+		else {
+			System.out.println("Matrices don't match");
+		}
+		return M;
+	}
+	
+	float[][] multiply(float[][] a, float[][] b) {
+		float [][] M = new float[a.length][b[0].length];
+		if (a[0].length==b.length) {
+			for(int i = 0; i<a.length; i++) {
+				for(int j = 0; j<b[0].length; j++) {
+					for(int k = 0; k<b.length; k++) {
+						M[i][j] += a[i][k]*b[k][j];
+					}
+				}
+			}
+		}
+		else {
+			System.out.println("Matrices don't match");
+		}
+		return M;
+	}
+	
+	float[][] scale(float[][] a, float s) {
+		for(int i = 0; i<a.length; i++) {
+			for(int j = 0; j<a[0].length; j++) {
+				a[i][j] *= s;
+			}
+		}
+		return a;
+	}
+	
+	float[][] transpose(float[][] a) {
+		float [][] M = new float[a[0].length][a.length];
+		for(int i = 0; i<a[0].length; i++) {
+			for(int j = 0; j<a.length; j++) {
+				M[i][j] = a[j][i];
+			}
+		}
+		return M;
+	}
+	
+	float[][] symmetrise(float[][] a) {
+		float [][] M = new float[a.length][a.length];
+		if (a.length==a[0].length) {
+			M = scale(add(a,transpose(a)),(float)0.5);
+		}
+		else {
+			System.out.println("Matrix not square");
+		}
+		return M;
+	}
+	
+	float[][] antisymmetrise(float[][] a) {
+		float [][] M = new float[a.length][a.length];
+		if (a.length==a[0].length) {
+			M = scale(add(a,scale(transpose(a),-1)),(float)0.5);
+		}
+		else {
+			System.out.println("Matrix not square");
+		}
+		return M;
+	}
+	
+	
 }
